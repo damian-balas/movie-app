@@ -14,7 +14,7 @@ class MovieInfo extends Component {
   componentDidMount() {
     const id = this.props.match.params.id 
 
-    fetch(`http://omdbapi.com/?apikey=251e77f3&i=${id}&plot=full`)
+    fetch(`https://omdbapi.com/?apikey=251e77f3&i=${id}&plot=full`)
     .then(response => response.json())
     .then(data => this.setState({movie: data}, () => {
       if(this.state.movie.Response === "False") {

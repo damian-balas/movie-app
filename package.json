@@ -2,7 +2,7 @@
   "name": "movie-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://damian-balas.github.io/movie-app/",
+  "homepage": "http://damian-balas.github.io/movie-app",
   "dependencies": {
     "gh-pages": "^2.0.1",
     "node-sass": "^4.13.0",

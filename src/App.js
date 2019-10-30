@@ -29,7 +29,7 @@ class App extends Component {
     event.preventDefault();
     try {
       const response = await fetch(
-        `http://www.omdbapi.com/?s=${this.state.query}&apikey=251e77f3`
+        `https://www.omdbapi.com/?s=${this.state.query}&apikey=251e77f3`
       );
       const json = await response.json();
       this.setState({ movies: json.Search }, () => console.log(this.state));

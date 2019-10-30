@@ -23,7 +23,7 @@ class Favspage extends Component {
     // })
 
     this.props.favs.forEach(id => {
-      fetch(`http://omdbapi.com/?apikey=251e77f3&i=${id}`)
+      fetch(`https://omdbapi.com/?apikey=251e77f3&i=${id}`)
         .then(response => response.json())
         .then(data =>
           this.setState(state => {
