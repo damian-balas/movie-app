@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-import './Spinner.sass'
+import "./Spinner.sass";
 
 const Spinner = () => (
   <div className="sk-folding-cube">
@@ -9,6 +9,6 @@ const Spinner = () => (
     <div className="sk-cube4 sk-cube"></div>
     <div className="sk-cube3 sk-cube"></div>
   </div>
-)
+);
 
-export default Spinner
+export default Spinner;

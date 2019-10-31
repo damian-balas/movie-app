@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from "react";
 import { Switch, Route } from "react-router-dom";
+import { trackPromise } from "react-promise-tracker";
 
 import Header from "./components/Header/Header";
 import Homepage from "./pages/Homepage/Homepage";
 import Favspage from "./pages/Favspage/Favspage";
-import MovieInfo from './pages/MovieInfo/MovieInfo'
+import MovieInfo from "./pages/MovieInfo/MovieInfo";
 
 import "./App.css";
 
@@ -15,34 +16,38 @@ class App extends Component {
     this.state = {
       movies: "",
       query: "",
-      favs: localStorage.favs ? JSON.parse(localStorage.favs) : [],
-      isLoading: false
+      favs: localStorage.favs ? JSON.parse(localStorage.favs) : []
     };
-
   }
 
   handleChange = event => {
     this.setState({ query: event.target.value });
   };
 
-  handleSubmit = async event => {
+  handleSubmit = event => {
     event.preventDefault();
-    this.setState({isLoading: true})
-    try {
-      const response = await fetch(
-        `https://www.omdbapi.com/?s=${this.state.query}&apikey=251e77f3`
-      );
-      const json = await response.json();
-      this.setState({ movies: json.Search }, () => this.setState({isLoading: false}));
-    } catch (error) {
-      console.error(error);
-      this.setState({isLoading: false})
-    }
+    // this.setState({isLoading: true})
+    // try {
+    //   const response = await fetch(
+    //     `https://www.omdbapi.com/?s=${this.state.query}&apikey=251e77f3`
+    //   );
+    //   const json = await response.json();
+    //   this.setState({ movies: json.Search });
+    // } catch (error) {
+    //   console.error(error);
+    // }
+
+    trackPromise(
+      fetch(`https://www.omdbapi.com/?s=${this.state.query}&apikey=251e77f3`)
+        .then(response => response.json())
+        .then(data => this.setState({ movies: data.Search }))
+        .catch(error => console.error(error))
+    );
   };
 
-  saveInLocalStorage = (favs) => {
-    localStorage.setItem('favs', JSON.stringify(favs))
-  }
+  saveInLocalStorage = favs => {
+    localStorage.setItem("favs", JSON.stringify(favs));
+  };
 
   handleFavButttonClicked = event => {
     const value = event.currentTarget.value;
@@ -56,7 +61,7 @@ class App extends Component {
           };
         },
         () => {
-          this.saveInLocalStorage(this.state.favs)
+          this.saveInLocalStorage(this.state.favs);
         }
       );
       event.currentTarget.classList.add("in-favs");
@@ -69,7 +74,7 @@ class App extends Component {
           };
         },
         () => {
-          this.saveInLocalStorage(this.state.favs)
+          this.saveInLocalStorage(this.state.favs);
         }
       );
       event.currentTarget.classList.remove("in-favs");
@@ -82,7 +87,7 @@ class App extends Component {
         <Header />
         <Switch>
           <Route
-            exact 
+            exact
             path="/favs"
             render={() => (
               <Favspage
@@ -91,10 +96,10 @@ class App extends Component {
               />
             )}
           />
-          <Route 
-            exact 
+          <Route
+            exact
             path="/movie/:id"
-            render={(props) => (
+            render={props => (
               <MovieInfo
                 {...props}
                 favs={this.state.favs}
@@ -112,7 +117,6 @@ class App extends Component {
                 handleClearMovies={this.handleClearMovies}
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
-                isLoading={this.state.isLoading}
               />
             )}
           />
