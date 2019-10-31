@@ -6,7 +6,11 @@ import "./MovieItem.sass";
 const MovieItem = ({ favs, handleFavButttonClicked, id, Title, Poster }) => (
   <div className="movie-item">
     <div className="img-wrapper">
-      <img className="img" src={`${Poster}`} alt={`${Title} - Poster`} />
+      {Poster === "N/A" ? (
+        <span className="no-img">Image not found</span>
+      ) : (
+        <img className="img" src={`${Poster}`} alt={Title} />
+      )}
     </div>
     <div className="btns-group">
       <Link to={`/movie/${id}`} className="info-btn">

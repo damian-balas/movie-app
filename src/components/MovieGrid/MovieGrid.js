@@ -6,13 +6,23 @@ import "./MovieGrid.sass";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 
 class MovieGrid extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextProps.movies !== this.props.movies){
+      return true
+    } else if(nextProps.favs !== this.props.favs) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   render() {
     return (
       <div className="movie-grid">
         {this.props.movies
           ? this.props.movies.map(({ imdbID, Title, Poster }) => (
               <MovieItem
-                key={`${imdbID}_${Math.floor(Math.random() * 1000)}`}
+                key={imdbID}
                 id={imdbID}
                 Title={Title}
                 Poster={Poster}

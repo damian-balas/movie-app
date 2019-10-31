@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { Switch, Route } from "react-router-dom";
-import { trackPromise } from "react-promise-tracker";
 
 import Header from "./components/Header/Header";
 import Homepage from "./pages/Homepage/Homepage";
@@ -20,30 +19,10 @@ class App extends Component {
     };
   }
 
-  handleChange = event => {
-    this.setState({ query: event.target.value });
-  };
-
-  handleSubmit = event => {
-    event.preventDefault();
-    // this.setState({isLoading: true})
-    // try {
-    //   const response = await fetch(
-    //     `https://www.omdbapi.com/?s=${this.state.query}&apikey=251e77f3`
-    //   );
-    //   const json = await response.json();
-    //   this.setState({ movies: json.Search });
-    // } catch (error) {
-    //   console.error(error);
-    // }
-
-    trackPromise(
-      fetch(`https://www.omdbapi.com/?s=${this.state.query}&apikey=251e77f3`)
-        .then(response => response.json())
-        .then(data => this.setState({ movies: data.Search }))
-        .catch(error => console.error(error))
-    );
-  };
+  componentDidMount() {
+    console.log(this.state.favs)
+  }
+  
 
   saveInLocalStorage = favs => {
     localStorage.setItem("favs", JSON.stringify(favs));
@@ -51,6 +30,7 @@ class App extends Component {
 
   handleFavButttonClicked = event => {
     const value = event.currentTarget.value;
+    
     if (!this.state.favs.includes(value)) {
       this.setState(
         state => {
@@ -64,7 +44,6 @@ class App extends Component {
           this.saveInLocalStorage(this.state.favs);
         }
       );
-      event.currentTarget.classList.add("in-favs");
     } else {
       this.setState(
         state => {
@@ -77,7 +56,6 @@ class App extends Component {
           this.saveInLocalStorage(this.state.favs);
         }
       );
-      event.currentTarget.classList.remove("in-favs");
     }
   };
 
@@ -113,10 +91,6 @@ class App extends Component {
               <Homepage
                 favs={this.state.favs}
                 handleFavButttonClicked={this.handleFavButttonClicked}
-                movies={this.state.movies}
-                handleClearMovies={this.handleClearMovies}
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
               />
             )}
           />

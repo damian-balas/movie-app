@@ -11,13 +11,22 @@ class MovieInfo extends Component {
     this.state = {
       movie: ""
     };
+
+    this.controller = new AbortController();
+    this.signal = this.controller.signal;
+  }
+
+  componentWillUnmount() {
+    this.controller.abort();
   }
 
   componentDidMount() {
     const id = this.props.match.params.id;
-
+    const signal = this.signal;
     trackPromise(
-      fetch(`https://omdbapi.com/?apikey=251e77f3&i=${id}&plot=full`)
+      fetch(`https://omdbapi.com/?apikey=251e77f3&i=${id}&plot=full`, {
+        signal
+      })
         .then(response => response.json())
         .then(data =>
           this.setState({ movie: data }, () => {
@@ -47,7 +56,11 @@ class MovieInfo extends Component {
         {this.state.movie ? (
           <div className="movie-info">
             <div className="img-wrapper">
-              <img className="img" src={`${Poster}`} alt={`${Title} Poster`} />
+              {Poster === "N/A" ? (
+                <span className="no-img">Image not found</span>
+              ) : (
+                <img className="img" src={`${Poster}`} alt={Title} />
+              )}
             </div>
             <h2 className="title">{Title}</h2>
             <div className="info">

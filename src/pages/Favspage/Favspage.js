@@ -10,12 +10,20 @@ class Favspage extends Component {
     this.state = {
       movies: []
     };
+
+    this.controller = new AbortController();
+    this.signal = this.controller.signal;
+  }
+
+  componentWillUnmount() {
+    this.controller.abort();
   }
 
   componentDidMount() {
+    const signal = this.signal;
     this.props.favs.forEach(id => {
       trackPromise(
-        fetch(`https://omdbapi.com/?apikey=251e77f3&i=${id}`)
+        fetch(`https://omdbapi.com/?apikey=251e77f3&i=${id}`, { signal })
           .then(response => response.json())
           .then(data =>
             this.setState(state => {
