@@ -3,16 +3,10 @@ import { Link } from 'react-router-dom'
 
 import './MovieItem.sass'
 
-const MovieItem = ({favs, handleFavButttonClicked, id, Title, Poster, Year }) => (
+const MovieItem = ({favs, handleFavButttonClicked, id, Title, Poster }) => (
   <div className="movie-item">
     <div className="img-wrapper">
-      <img className='img' src={`${Poster}`} alt={`${Title} Poster`}/>
-    </div>
-    <div style={{
-      textAlign: 'center'
-    }}>
-      <h2 className='title'>{Title}</h2>
-      <span className="year">{Year}</span>
+      <img className='img' src={`${Poster}`} alt={`${Title} - Poster`}/>
     </div>
     <div className="btns-group">
       <Link to={`/movie/${id}`} className='info-btn'>

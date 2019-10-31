@@ -10,7 +10,7 @@ class MovieGrid extends Component {
     return(
       <div className="movie-grid">
         {
-          this.props.movies ? this.props.movies.map(({imdbID, Title, Poster, Year})=> <MovieItem key={imdbID} id={imdbID} Title={Title} Poster={Poster} Year={Year} favs={this.props.favs} handleFavButttonClicked={this.props.handleFavButttonClicked}/>) : null
+          this.props.movies ? this.props.movies.map(({imdbID, Title, Poster })=> <MovieItem key={`${imdbID}_${Math.floor(Math.random()*1000)}`} id={imdbID} Title={Title} Poster={Poster} favs={this.props.favs} handleFavButttonClicked={this.props.handleFavButttonClicked}/>) : null
         }
       </div>
     )

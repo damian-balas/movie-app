@@ -15,26 +15,28 @@ class App extends Component {
     this.state = {
       movies: "",
       query: "",
-      favs: localStorage.favs ? JSON.parse(localStorage.favs) : []
+      favs: localStorage.favs ? JSON.parse(localStorage.favs) : [],
+      isLoading: false
     };
 
   }
 
   handleChange = event => {
     this.setState({ query: event.target.value });
-    console.log(this.state)
   };
 
   handleSubmit = async event => {
     event.preventDefault();
+    this.setState({isLoading: true})
     try {
       const response = await fetch(
         `https://www.omdbapi.com/?s=${this.state.query}&apikey=251e77f3`
       );
       const json = await response.json();
-      this.setState({ movies: json.Search }, () => console.log(this.state));
+      this.setState({ movies: json.Search }, () => this.setState({isLoading: false}));
     } catch (error) {
       console.error(error);
+      this.setState({isLoading: false})
     }
   };
 
@@ -110,6 +112,7 @@ class App extends Component {
                 handleClearMovies={this.handleClearMovies}
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
+                isLoading={this.state.isLoading}
               />
             )}
           />

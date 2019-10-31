@@ -7,21 +7,11 @@ class Favspage extends Component {
     super(props);
 
     this.state = {
-      movies: []
+      movies: [],
     };
   }
 
   componentDidMount() {
-    // const promises = this.props.favs.map(id => fetch(`http://omdbapi.com/?apikey=251e77f3&i=${id}`).then(response => response.json()))
-    // const data = await Promise.all(promises)
-
-    // this.setState((state)=>{
-    //   const moviesArray = state.movies.concat(data)
-    //   return({
-    //     movies: moviesArray
-    //   })
-    // })
-
     this.props.favs.forEach(id => {
       fetch(`https://omdbapi.com/?apikey=251e77f3&i=${id}`)
         .then(response => response.json())
@@ -34,7 +24,6 @@ class Favspage extends Component {
           })
         );
     });
-    console.log(this.props)
   }
 
   render() {
