@@ -8,7 +8,7 @@ const Search = props => {
   return (
     <form autoComplete="off" className="form">
       <label className="label" htmlFor="query">
-        Search Movie:{" "}
+        Search Movie:
       </label>
       <input
         placeholder="Search for movies..."

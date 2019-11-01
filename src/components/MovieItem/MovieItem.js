@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "./MovieItem.sass";
 
-const MovieItem = ({ favs, handleFavButtonClicked, id, title, poster }) => (
+const MovieItem = ({ isFav, handleFavButtonClicked, id, title, poster }) => (
   <div className="movie-item">
     <div className="img-wrapper">
       {poster === "N/A" ? (
@@ -24,12 +24,9 @@ const MovieItem = ({ favs, handleFavButtonClicked, id, title, poster }) => (
         className="fav-btn"
         value={id}
         onClick={handleFavButtonClicked}
+        type="button"
       >
-        {favs.includes(id) ? (
-          <span aira-hidden="true" className="fas fa-heart"></span>
-        ) : (
-          <span aira-hidden="true" className="far fa-heart"></span>
-        )}
+          <span aira-hidden="true" className={`${isFav ? 'fas' : 'far'} fa-heart`} ></span>
       </button>
     </div>
   </div>

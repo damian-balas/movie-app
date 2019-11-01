@@ -36,8 +36,8 @@ class App extends Component {
   };
 
   render() {
-    const { favs } = this.state
-    const { handleFavButtonClicked } = this
+    const { favs } = this.state;
+    const { handleFavButtonClicked } = this;
 
     return (
       <Fragment>

@@ -17,7 +17,7 @@ const MovieGrid = props => {
               id={imdbID}
               title={Title}
               poster={Poster}
-              favs={favs}
+              isFav={favs.includes(imdbID)}
               handleFavButtonClicked={handleFavButtonClicked}
             />
           ))

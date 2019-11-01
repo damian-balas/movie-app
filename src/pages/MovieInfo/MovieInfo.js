@@ -78,12 +78,9 @@ class MovieInfo extends Component {
               className="fav-btn"
               value={id}
               onClick={handleFavButtonClicked}
+              type="button"
             >
-              {favs.includes(id) ? (
-                <span aira-hidden="true" className="fas fa-heart"></span>
-              ) : (
-                <span aira-hidden="true" className="far fa-heart"></span>
-              )}
+              <span aira-hidden="true" className={`${favs.includes(id) ? 'fas' : 'far'} fa-heart`} ></span>
             </button>
           </div>
         ) : null}
