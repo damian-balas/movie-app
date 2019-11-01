@@ -11,7 +11,8 @@ class Homepage extends Component {
 
     this.state = {
       movies: "",
-      query: ""
+      query: "",
+      error: ""
     };
 
     this.controller = new AbortController();
@@ -19,7 +20,6 @@ class Homepage extends Component {
   }
 
   componentWillUnmount() {
-    console.log("hi");
     this.controller.abort();
   }
 
@@ -37,6 +37,9 @@ class Homepage extends Component {
       })
         .then(response => response.json())
         .then(data => {
+          if(data.Error){
+            this.setState({error: data.Error})
+          }
           this.setState({ movies: data.Search });
         })
         .catch(error => console.log(error.message))
@@ -52,9 +55,8 @@ class Homepage extends Component {
         />
         <LoadingIndicator />
         <MovieGrid
-          loadingIndicatorOff={true}
           favs={this.props.favs}
-          handleFavButttonClicked={this.props.handleFavButttonClicked}
+          handleFavButtonClicked={this.props.handleFavButtonClicked}
           movies={this.state.movies}
         />
       </Fragment>

@@ -5,7 +5,7 @@ import Spinner from "../../components/Spinner/Spinner";
 
 const LoadingIndicator = props => {
   const { promiseInProgress } = usePromiseTracker();
-  return promiseInProgress && <Spinner />;
+  return !props.off && promiseInProgress && <Spinner />;
 };
 
 export default LoadingIndicator;

@@ -42,7 +42,7 @@ class Favspage extends Component {
       <Fragment>
         <MovieGrid
           favs={this.props.favs}
-          handleFavButttonClicked={this.props.handleFavButttonClicked}
+          handleFavButtonClicked={this.props.handleFavButtonClicked}
           movies={this.state.movies}
         />
       </Fragment>

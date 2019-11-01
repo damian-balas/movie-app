@@ -76,7 +76,7 @@ class MovieInfo extends Component {
               aria-label="Add to favourites"
               className="fav-btn"
               value={this.props.match.params.id}
-              onClick={this.props.handleFavButttonClicked}
+              onClick={this.props.handleFavButtonClicked}
             >
               {this.props.favs.includes(this.props.match.params.id) ? (
                 <span aira-hidden="true" className="fas fa-heart"></span>

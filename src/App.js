@@ -9,26 +9,19 @@ import MovieInfo from "./pages/MovieInfo/MovieInfo";
 import "./App.css";
 
 class App extends Component {
-  constructor() {
-    super();
 
-    this.state = {
+    state = {
       movies: "",
       query: "",
       favs: localStorage.favs ? JSON.parse(localStorage.favs) : []
     };
-  }
-
-  componentDidMount() {
-    console.log(this.state.favs)
-  }
   
 
   saveInLocalStorage = favs => {
     localStorage.setItem("favs", JSON.stringify(favs));
   };
 
-  handleFavButttonClicked = event => {
+  handleFavButtonClicked = event => {
     const value = event.currentTarget.value;
     
     if (!this.state.favs.includes(value)) {
@@ -70,7 +63,7 @@ class App extends Component {
             render={() => (
               <Favspage
                 favs={this.state.favs}
-                handleFavButttonClicked={this.handleFavButttonClicked}
+                handleFavButtonClicked={this.handleFavButtonClicked}
               />
             )}
           />
@@ -81,7 +74,7 @@ class App extends Component {
               <MovieInfo
                 {...props}
                 favs={this.state.favs}
-                handleFavButttonClicked={this.handleFavButttonClicked}
+                handleFavButtonClicked={this.handleFavButtonClicked}
               />
             )}
           />
@@ -90,7 +83,7 @@ class App extends Component {
             render={() => (
               <Homepage
                 favs={this.state.favs}
-                handleFavButttonClicked={this.handleFavButttonClicked}
+                handleFavButtonClicked={this.handleFavButtonClicked}
               />
             )}
           />
