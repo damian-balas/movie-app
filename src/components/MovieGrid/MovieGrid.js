@@ -19,7 +19,7 @@ const MovieGrid = (props) => (
               />
             ))
           : null}
-        <LoadingIndicator off/>
+        <LoadingIndicator off={props.loadingIndicatorOff}/>
       </div>
     );
 export default MovieGrid;

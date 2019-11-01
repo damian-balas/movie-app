@@ -9,13 +9,11 @@ import MovieInfo from "./pages/MovieInfo/MovieInfo";
 import "./App.css";
 
 class App extends Component {
-
-    state = {
-      movies: "",
-      query: "",
-      favs: localStorage.favs ? JSON.parse(localStorage.favs) : []
-    };
-  
+  state = {
+    movies: "",
+    query: "",
+    favs: localStorage.favs ? JSON.parse(localStorage.favs) : []
+  };
 
   saveInLocalStorage = favs => {
     localStorage.setItem("favs", JSON.stringify(favs));
@@ -23,33 +21,18 @@ class App extends Component {
 
   handleFavButtonClicked = event => {
     const value = event.currentTarget.value;
-    
-    if (!this.state.favs.includes(value)) {
-      this.setState(
-        state => {
-          const favs = state.favs.concat(value);
+    this.setState(
+      state => {
+        const favs = state.favs.includes(value)
+          ? state.favs.filter(id => id !== value)
+          : state.favs.concat(value);
 
-          return {
-            favs
-          };
-        },
-        () => {
-          this.saveInLocalStorage(this.state.favs);
-        }
-      );
-    } else {
-      this.setState(
-        state => {
-          const favs = state.favs.filter(id => id !== value);
-          return {
-            favs
-          };
-        },
-        () => {
-          this.saveInLocalStorage(this.state.favs);
-        }
-      );
-    }
+        return {
+          favs
+        };
+      },
+      () => this.saveInLocalStorage(this.state.favs)
+    );
   };
 
   render() {

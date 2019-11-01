@@ -4,16 +4,12 @@ import { trackPromise } from "react-promise-tracker";
 import MovieGrid from "../../components/MovieGrid/MovieGrid";
 
 class Favspage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
+    state = {
       movies: []
     };
-
-    this.controller = new AbortController();
-    this.signal = this.controller.signal;
-  }
+    controller = new AbortController();
+    signal = this.controller.signal;
+  
 
   componentWillUnmount() {
     this.controller.abort();

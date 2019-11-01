@@ -55,6 +55,7 @@ class Homepage extends Component {
         />
         <LoadingIndicator />
         <MovieGrid
+          loadingIndicatorOff={true}
           favs={this.props.favs}
           handleFavButtonClicked={this.props.handleFavButtonClicked}
           movies={this.state.movies}
