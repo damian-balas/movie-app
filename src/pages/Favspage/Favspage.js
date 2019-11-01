@@ -4,12 +4,11 @@ import { trackPromise } from "react-promise-tracker";
 import MovieGrid from "../../components/MovieGrid/MovieGrid";
 
 class Favspage extends Component {
-    state = {
-      movies: []
-    };
-    controller = new AbortController();
-    signal = this.controller.signal;
-  
+  state = {
+    movies: []
+  };
+  controller = new AbortController();
+  signal = this.controller.signal;
 
   componentWillUnmount() {
     this.controller.abort();
@@ -34,12 +33,14 @@ class Favspage extends Component {
   }
 
   render() {
+    const { favs, handleFavButtonClicked } = this.props;
+    const { movies } = this.state;
     return (
       <Fragment>
         <MovieGrid
-          favs={this.props.favs}
-          handleFavButtonClicked={this.props.handleFavButtonClicked}
-          movies={this.state.movies}
+          favs={favs}
+          handleFavButtonClicked={handleFavButtonClicked}
+          movies={movies}
         />
       </Fragment>
     );

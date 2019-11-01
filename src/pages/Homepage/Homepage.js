@@ -6,18 +6,14 @@ import Search from "../../components/Search/Search";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 
 class Homepage extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    movies: "",
+    query: "",
+    error: ""
+  };
 
-    this.state = {
-      movies: "",
-      query: "",
-      error: ""
-    };
-
-    this.controller = new AbortController();
-    this.signal = this.controller.signal;
-  }
+  controller = new AbortController();
+  signal = this.controller.signal;
 
   componentWillUnmount() {
     this.controller.abort();
@@ -37,8 +33,8 @@ class Homepage extends Component {
       })
         .then(response => response.json())
         .then(data => {
-          if(data.Error){
-            this.setState({error: data.Error})
+          if (data.Error) {
+            this.setState({ error: data.Error });
           }
           this.setState({ movies: data.Search });
         })
@@ -47,18 +43,19 @@ class Homepage extends Component {
   };
 
   render() {
+    const { handleChange, handleSubmit } = this;
+    const { handleFavButtonClicked, favs } = this.props;
+    const { movies } = this.state;
+
     return (
       <Fragment>
-        <Search
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-        />
+        <Search handleChange={handleChange} handleSubmit={handleSubmit} />
         <LoadingIndicator />
         <MovieGrid
           loadingIndicatorOff={true}
-          favs={this.props.favs}
-          handleFavButtonClicked={this.props.handleFavButtonClicked}
-          movies={this.state.movies}
+          favs={favs}
+          handleFavButtonClicked={handleFavButtonClicked}
+          movies={movies}
         />
       </Fragment>
     );

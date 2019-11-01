@@ -36,6 +36,9 @@ class App extends Component {
   };
 
   render() {
+    const { favs } = this.state
+    const { handleFavButtonClicked } = this
+
     return (
       <Fragment>
         <Header />
@@ -45,8 +48,8 @@ class App extends Component {
             path="/favs"
             render={() => (
               <Favspage
-                favs={this.state.favs}
-                handleFavButtonClicked={this.handleFavButtonClicked}
+                favs={favs}
+                handleFavButtonClicked={handleFavButtonClicked}
               />
             )}
           />
@@ -56,8 +59,8 @@ class App extends Component {
             render={props => (
               <MovieInfo
                 {...props}
-                favs={this.state.favs}
-                handleFavButtonClicked={this.handleFavButtonClicked}
+                favs={favs}
+                handleFavButtonClicked={handleFavButtonClicked}
               />
             )}
           />
@@ -65,8 +68,8 @@ class App extends Component {
             path="/"
             render={() => (
               <Homepage
-                favs={this.state.favs}
-                handleFavButtonClicked={this.handleFavButtonClicked}
+                favs={favs}
+                handleFavButtonClicked={handleFavButtonClicked}
               />
             )}
           />

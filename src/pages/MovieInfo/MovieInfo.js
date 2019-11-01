@@ -5,24 +5,22 @@ import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator
 import "./MovieInfo.sass";
 
 class MovieInfo extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    movie: ""
+  };
 
-    this.state = {
-      movie: ""
-    };
-
-    this.controller = new AbortController();
-    this.signal = this.controller.signal;
-  }
+  controller = new AbortController();
+  signal = this.controller.signal;
+  id = this.props.match.params.id;
 
   componentWillUnmount() {
     this.controller.abort();
   }
 
   componentDidMount() {
-    const id = this.props.match.params.id;
     const signal = this.signal;
+    const id = this.id;
+
     trackPromise(
       fetch(`https://omdbapi.com/?apikey=251e77f3&i=${id}&plot=full`, {
         signal
@@ -39,6 +37,7 @@ class MovieInfo extends Component {
   }
 
   render() {
+    const { movie } = this.state;
     const {
       Poster,
       Title,
@@ -48,12 +47,14 @@ class MovieInfo extends Component {
       Actors,
       imdbRating,
       Runtime
-    } = this.state.movie;
+    } = movie;
+    const { favs, handleFavButtonClicked } = this.props;
+    const id = this.id;
 
     return (
       <Fragment>
         <LoadingIndicator />
-        {this.state.movie ? (
+        {movie ? (
           <div className="movie-info">
             <div className="img-wrapper">
               {Poster === "N/A" ? (
@@ -75,10 +76,10 @@ class MovieInfo extends Component {
             <button
               aria-label="Add to favourites"
               className="fav-btn"
-              value={this.props.match.params.id}
-              onClick={this.props.handleFavButtonClicked}
+              value={id}
+              onClick={handleFavButtonClicked}
             >
-              {this.props.favs.includes(this.props.match.params.id) ? (
+              {favs.includes(id) ? (
                 <span aira-hidden="true" className="fas fa-heart"></span>
               ) : (
                 <span aira-hidden="true" className="far fa-heart"></span>
