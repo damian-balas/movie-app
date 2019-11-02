@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import FavBtn from '../FavBtn'
+
 import "./MovieItem.sass";
 
 const MovieItem = ({ isFav, handleFavButtonClicked, id, title, poster }) => (
@@ -19,15 +21,11 @@ const MovieItem = ({ isFav, handleFavButtonClicked, id, title, poster }) => (
           className="fas fa-info"
         ></span>
       </Link>
-      <button
-        aria-label="Add to favourites"
-        className="fav-btn"
-        value={id}
-        onClick={handleFavButtonClicked}
-        type="button"
-      >
-          <span aira-hidden="true" className={`${isFav ? 'fas' : 'far'} fa-heart`} ></span>
-      </button>
+      <FavBtn 
+        isFav={isFav}
+        handleFavButtonClicked={handleFavButtonClicked}
+        id={id}
+      />
     </div>
   </div>
 );

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { trackPromise } from "react-promise-tracker";
 import LoadingIndicator from "../../components/LoadingIndicator";
-
+import FavBtn from '../../components/FavBtn'
 import getMovie from "../../api/getMovie";
 
 import "./MovieInfo.sass";
@@ -70,18 +70,11 @@ class MovieInfo extends Component {
             <span className="actors">{Actors}</span>
             <p className="plot">{Plot}</p>
 
-            <button
-              aria-label="Add to favourites"
-              className="fav-btn"
-              value={id}
-              onClick={handleFavButtonClicked}
-              type="button"
-            >
-              <span
-                aira-hidden="true"
-                className={`${favs.includes(id) ? "fas" : "far"} fa-heart`}
-              ></span>
-            </button>
+            <FavBtn 
+              isFav={favs.includes(id)}
+              handleFavButtonClicked={handleFavButtonClicked}
+              id={id}
+            />
           </div>
         ) : null}
       </Fragment>
