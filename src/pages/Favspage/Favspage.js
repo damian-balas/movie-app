@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { trackPromise } from "react-promise-tracker";
 
-import MovieGrid from "../../components/MovieGrid/MovieGrid";
+import MovieGrid from "../../components/MovieGrid";
 
 class Favspage extends Component {
   state = {
@@ -12,7 +12,7 @@ class Favspage extends Component {
 
   componentWillUnmount() {
     this.controller.abort();
-  }
+  } 
 
   componentDidMount() {
     const signal = this.signal;

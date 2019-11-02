@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { trackPromise } from "react-promise-tracker";
 
-import MovieGrid from "../../components/MovieGrid/MovieGrid";
-import Search from "../../components/Search/Search";
-import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import MovieGrid from "../../components/MovieGrid";
+import Search from "../../components/Search";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
 class Homepage extends Component {
   state = {

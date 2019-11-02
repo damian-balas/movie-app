@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { trackPromise } from "react-promise-tracker";
-import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
 import "./MovieInfo.sass";
 

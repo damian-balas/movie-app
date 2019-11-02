@@ -1,9 +1,9 @@
 import React from "react";
 
-import MovieItem from "../MovieItem/MovieItem";
+import MovieItem from "../MovieItem/";
 
 import "./MovieGrid.sass";
-import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
 const MovieGrid = props => {
   const { movies, handleFavButtonClicked, loadingIndicatorOff, favs } = props;

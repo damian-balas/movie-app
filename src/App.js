@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
 import { Switch, Route } from "react-router-dom";
 
-import Header from "./components/Header/Header";
-import Homepage from "./pages/Homepage/Homepage";
-import Favspage from "./pages/Favspage/Favspage";
-import MovieInfo from "./pages/MovieInfo/MovieInfo";
+import Header from "./components/Header";
+import Homepage from "./pages/Homepage";
+import Favspage from "./pages/Favspage";
+import MovieInfo from "./pages/MovieInfo";
 
 import "./App.css";
 
