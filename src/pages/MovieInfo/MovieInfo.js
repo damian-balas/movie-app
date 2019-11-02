@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import { trackPromise } from "react-promise-tracker";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
+import getMovie from "../../api/getMovie";
+
 import "./MovieInfo.sass";
 
 class MovieInfo extends Component {
@@ -17,23 +19,18 @@ class MovieInfo extends Component {
     this.controller.abort();
   }
 
-  componentDidMount() {
-    const signal = this.signal;
-    const id = this.id;
+  async componentDidMount() {
+    try {
+      const movie = await trackPromise(getMovie(this.id, this.signal, "full"));
 
-    trackPromise(
-      fetch(`https://omdbapi.com/?apikey=251e77f3&i=${id}&plot=full`, {
-        signal
-      })
-        .then(response => response.json())
-        .then(data =>
-          this.setState({ movie: data }, () => {
-            if (this.state.movie.Response === "False") {
-              this.props.history.replace("/");
-            }
-          })
-        )
-    );
+      if (movie.Response === "False") {
+        this.props.history.replace("/");
+      } else {
+        this.setState({ movie });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   render() {
@@ -80,7 +77,10 @@ class MovieInfo extends Component {
               onClick={handleFavButtonClicked}
               type="button"
             >
-              <span aira-hidden="true" className={`${favs.includes(id) ? 'fas' : 'far'} fa-heart`} ></span>
+              <span
+                aira-hidden="true"
+                className={`${favs.includes(id) ? "fas" : "far"} fa-heart`}
+              ></span>
             </button>
           </div>
         ) : null}

@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { trackPromise } from "react-promise-tracker";
 
+import getMovies from "../../api/getMovies";
+
 import MovieGrid from "../../components/MovieGrid";
 import Search from "../../components/Search";
 import LoadingIndicator from "../../components/LoadingIndicator";
@@ -23,23 +25,20 @@ class Homepage extends Component {
     this.setState({ query: event.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
     const signal = this.signal;
 
-    trackPromise(
-      fetch(`https://www.omdbapi.com/?s=${this.state.query}&apikey=251e77f3`, {
-        signal
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.Error) {
-            this.setState({ error: data.Error });
-          }
-          this.setState({ movies: data.Search });
-        })
-        .catch(error => console.log(error.message))
-    );
+    try {
+      const movies = await trackPromise(getMovies(this.state.query, signal));
+      if (movies.Response === "False") {
+        this.setState({ error: movies.Error });
+      } else {
+        this.setState({ movies: movies.Search });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   render() {
