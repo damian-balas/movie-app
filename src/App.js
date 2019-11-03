@@ -19,20 +19,20 @@ class App extends Component {
     localStorage.setItem("favs", JSON.stringify(favs));
   };
 
-  handleFavButtonClicked = event => {
-    const value = event.currentTarget.value;
-    this.setState(
-      state => {
-        const favs = state.favs.includes(value)
-          ? state.favs.filter(id => id !== value)
-          : state.favs.concat(value);
+  addToFavs = (id) => {
+    const {favs} = this.state
+    const newFavs = favs.concat(id)
+    this.setState({favs: newFavs})
+  }
 
-        return {
-          favs
-        };
-      },
-      () => this.saveInLocalStorage(this.state.favs)
-    );
+  removeFromFavs = (id) => {
+    const {favs} = this.state
+    const newFavs = favs.filter(favId => favId !== id)
+    this.setState({favs: newFavs})
+  }
+
+  handleFavButtonClicked = (id, isFav) => {
+    isFav ? this.removeFromFavs(id) : this.addToFavs(id)
   };
 
   render() {

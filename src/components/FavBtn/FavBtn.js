@@ -2,14 +2,12 @@ import React from "react";
 
 import './FavBtn.sass'
 
-const FavBtn = props => {
-  const {id, isFav, handleFavButtonClicked} = props
+const FavBtn = ({id, isFav, handleFavButtonClicked}) => {
   return (
     <button
       aria-label="Add to favourites"
       className="fav-btn"
-      value={id}
-      onClick={handleFavButtonClicked}
+      onClick={() => handleFavButtonClicked(id, isFav)}
       type="button"
     >
       <span

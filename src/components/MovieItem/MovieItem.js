@@ -11,7 +11,7 @@ const MovieItem = ({ isFav, handleFavButtonClicked, id, title, poster }) => (
       {poster === "N/A" ? (
         <span className="no-img">Image not found</span>
       ) : (
-        <img className="img" src={`${poster}`} alt={title} />
+        <img className="img" src={poster} alt={title} />
       )}
     </div>
     <div className="btns-group">

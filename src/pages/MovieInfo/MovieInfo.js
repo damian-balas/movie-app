@@ -57,7 +57,7 @@ class MovieInfo extends Component {
               {Poster === "N/A" ? (
                 <span className="no-img">Image not found</span>
               ) : (
-                <img className="img" src={`${Poster}`} alt={Title} />
+                <img className="img" src={Poster} alt={Title} />
               )}
             </div>
             <h2 className="title">{Title}</h2>
