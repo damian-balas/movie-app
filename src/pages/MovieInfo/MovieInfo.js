@@ -47,7 +47,7 @@ class MovieInfo extends Component {
       Actors,
       imdbRating,
       Runtime
-    } = movie;
+    } = movie || {};
     const { favs, handleFavButtonClicked } = this.props;
     const id = this.id;
 
