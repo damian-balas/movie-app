@@ -4,8 +4,9 @@ import { usePromiseTracker } from "react-promise-tracker";
 import Spinner from "../../components/Spinner";
 
 const LoadingIndicator = props => {
+  const {off} = props
   const { promiseInProgress } = usePromiseTracker();
-  return !props.off && promiseInProgress && <Spinner />;
+  return !off && promiseInProgress && <Spinner />;
 };
 
 export default LoadingIndicator;

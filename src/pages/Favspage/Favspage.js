@@ -20,7 +20,7 @@ class Favspage extends Component {
     const signal = this.signal;
     this.props.favs.forEach(async id => {
       try {
-        const movie = await trackPromise(getMovie(id, signal));
+        const movie = await trackPromise(getMovie({ id, signal }));
 
         this.setState(state => {
           const moviesArray = state.movies.concat(movie);

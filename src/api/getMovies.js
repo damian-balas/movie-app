@@ -1,12 +1,7 @@
-import apiKey from "./apiKey";
+import API_KEY from "./API_KEY";
 
-const getMovies = async (query, signal) => {
-  const response = await fetch(
-    `https://omdbapi.com/?apikey=${apiKey}&s=${query}`,
-    { signal }
-  );
-  const movies = await response.json();
-  return movies;
+const getMovies = (query, signal) => {
+  return fetch(`https://omdbapi.com/?apikey=${API_KEY}&s=${query}`, { signal }).then(response => response.json());
 };
 
 export default getMovies;

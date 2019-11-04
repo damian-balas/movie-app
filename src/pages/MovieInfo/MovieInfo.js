@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { trackPromise } from "react-promise-tracker";
 import LoadingIndicator from "../../components/LoadingIndicator";
-import FavBtn from '../../components/FavBtn'
-import getMovie from "../../api/getMovie";
-
+import FavBtn from "../../components/FavBtn";
+import getMovie, { PLOT_TYPES } from "../../api/getMovie";
 import "./MovieInfo.sass";
 
 class MovieInfo extends Component {
@@ -21,7 +20,9 @@ class MovieInfo extends Component {
 
   async componentDidMount() {
     try {
-      const movie = await trackPromise(getMovie(this.id, this.signal, "full"));
+      const movie = await trackPromise(
+        getMovie({ id: this.id, signal: this.signal, plot: PLOT_TYPES.FULL })
+      );
 
       if (movie.Response === "False") {
         this.props.history.replace("/");
@@ -51,7 +52,7 @@ class MovieInfo extends Component {
     return (
       <Fragment>
         <LoadingIndicator />
-        {movie ? (
+        {movie && (
           <div className="movie-info">
             <div className="img-wrapper">
               {Poster === "N/A" ? (
@@ -70,13 +71,13 @@ class MovieInfo extends Component {
             <span className="actors">{Actors}</span>
             <p className="plot">{Plot}</p>
 
-            <FavBtn 
+            <FavBtn
               isFav={favs.includes(id)}
               handleFavButtonClicked={handleFavButtonClicked}
               id={id}
             />
           </div>
-        ) : null}
+        )}
       </Fragment>
     );
   }

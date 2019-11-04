@@ -1,12 +1,12 @@
-import apiKey from "./apiKey";
+import API_KEY from "./API_KEY";
 
-const getMovie = async (id, signal, plot = "short") => {
-  const response = await fetch(
-    `https://omdbapi.com/?apikey=${apiKey}&i=${id}&plot=${plot}`,
-    { signal }
-  );
-  const movie = await response.json();
-  return movie;
+export const PLOT_TYPES = {
+  SHORT: "short",
+  FULL: "full"
+};
+
+const getMovie = ({ id, signal, plot = PLOT_TYPES.SHORT }) => {
+  return fetch(`https://omdbapi.com/?apikey=${API_KEY}&i=${id}&plot=${plot}`, { signal }).then(response => response.json());
 };
 
 export default getMovie;

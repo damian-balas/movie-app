@@ -9,7 +9,7 @@ import LoadingIndicator from "../../components/LoadingIndicator";
 
 class Homepage extends Component {
   state = {
-    movies: "",
+    movies: [],
     query: "",
     error: ""
   };

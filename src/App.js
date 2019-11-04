@@ -10,8 +10,6 @@ import "./App.css";
 
 class App extends Component {
   state = {
-    movies: "",
-    query: "",
     favs: localStorage.favs ? JSON.parse(localStorage.favs) : []
   };
 
@@ -19,20 +17,24 @@ class App extends Component {
     localStorage.setItem("favs", JSON.stringify(favs));
   };
 
-  addToFavs = (id) => {
-    const {favs} = this.state
-    const newFavs = favs.concat(id)
-    this.setState({favs: newFavs})
-  }
+  addToFavs = id => {
+    const { favs } = this.state;
+    const newFavs = favs.concat(id);
+    this.setState({ favs: newFavs }, () =>
+      this.saveInLocalStorage(this.state.favs)
+    );
+  };
 
-  removeFromFavs = (id) => {
-    const {favs} = this.state
-    const newFavs = favs.filter(favId => favId !== id)
-    this.setState({favs: newFavs})
-  }
+  removeFromFavs = id => {
+    const { favs } = this.state;
+    const newFavs = favs.filter(favId => favId !== id);
+    this.setState({ favs: newFavs }, () =>
+      this.saveInLocalStorage(this.state.favs)
+    );
+  };
 
   handleFavButtonClicked = (id, isFav) => {
-    isFav ? this.removeFromFavs(id) : this.addToFavs(id)
+    isFav ? this.removeFromFavs(id) : this.addToFavs(id);
   };
 
   render() {
