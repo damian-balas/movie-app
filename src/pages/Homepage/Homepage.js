@@ -1,25 +1,23 @@
 import React, { Component, Fragment } from "react";
 import { trackPromise } from "react-promise-tracker";
 
-import MovieGrid from "../../components/MovieGrid/MovieGrid";
-import Search from "../../components/Search/Search";
-import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
+import getMovies from "../../api/getMovies";
 
+import MovieGrid from "../../components/MovieGrid";
+import Search from "../../components/Search";
+import LoadingIndicator from "../../components/LoadingIndicator";
+import ErrorMessage from "../../components/ErrorMessage";
 class Homepage extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    movies: [],
+    query: "",
+    errorMessage: ""
+  };
 
-    this.state = {
-      movies: "",
-      query: ""
-    };
-
-    this.controller = new AbortController();
-    this.signal = this.controller.signal;
-  }
+  controller = new AbortController();
+  signal = this.controller.signal;
 
   componentWillUnmount() {
-    console.log("hi");
     this.controller.abort();
   }
 
@@ -27,35 +25,40 @@ class Homepage extends Component {
     this.setState({ query: event.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
     const signal = this.signal;
 
-    trackPromise(
-      fetch(`https://www.omdbapi.com/?s=${this.state.query}&apikey=251e77f3`, {
-        signal
-      })
-        .then(response => response.json())
-        .then(data => {
-          this.setState({ movies: data.Search });
-        })
-        .catch(error => console.log(error.message))
-    );
+    try {
+      const movies = await trackPromise(getMovies(this.state.query, signal));
+      if (movies.Response === "False") {
+        this.setState({ movies: [], errorMessage: movies.Error });
+      } else {
+        this.setState({ movies: movies.Search, errorMessage: "" });
+
+      }
+    } catch (error) {
+      this.setState({ movies: [], errorMessage: error.message });
+      
+
+    }
   };
 
   render() {
+    const { handleChange, handleSubmit } = this;
+    const { handleFavButtonClicked, favs } = this.props;
+    const { movies, errorMessage } = this.state;
+
     return (
       <Fragment>
-        <Search
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-        />
+        <Search handleChange={handleChange} handleSubmit={handleSubmit} />
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <LoadingIndicator />
         <MovieGrid
           loadingIndicatorOff={true}
-          favs={this.props.favs}
-          handleFavButttonClicked={this.props.handleFavButttonClicked}
-          movies={this.state.movies}
+          favs={favs}
+          handleFavButtonClicked={handleFavButtonClicked}
+          movies={movies}
         />
       </Fragment>
     );

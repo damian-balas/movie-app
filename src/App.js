@@ -1,65 +1,47 @@
 import React, { Component, Fragment } from "react";
 import { Switch, Route } from "react-router-dom";
 
-import Header from "./components/Header/Header";
-import Homepage from "./pages/Homepage/Homepage";
-import Favspage from "./pages/Favspage/Favspage";
-import MovieInfo from "./pages/MovieInfo/MovieInfo";
+import Header from "./components/Header";
+import Homepage from "./pages/Homepage";
+import Favspage from "./pages/Favspage";
+import NoMatch from './pages/NoMatch'
+import MovieInfo from "./pages/MovieInfo";
 
 import "./App.css";
 
 class App extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      movies: "",
-      query: "",
-      favs: localStorage.favs ? JSON.parse(localStorage.favs) : []
-    };
-  }
-
-  componentDidMount() {
-    console.log(this.state.favs)
-  }
-  
+  state = {
+    favs: localStorage.favs ? JSON.parse(localStorage.favs) : []
+  };
 
   saveInLocalStorage = favs => {
     localStorage.setItem("favs", JSON.stringify(favs));
   };
 
-  handleFavButttonClicked = event => {
-    const value = event.currentTarget.value;
-    
-    if (!this.state.favs.includes(value)) {
-      this.setState(
-        state => {
-          const favs = state.favs.concat(value);
+  addToFavs = id => {
+    const { favs } = this.state;
+    const newFavs = favs.concat(id);
+    this.setState({ favs: newFavs }, () =>
+      this.saveInLocalStorage(this.state.favs)
+    );
+  };
 
-          return {
-            favs
-          };
-        },
-        () => {
-          this.saveInLocalStorage(this.state.favs);
-        }
-      );
-    } else {
-      this.setState(
-        state => {
-          const favs = state.favs.filter(id => id !== value);
-          return {
-            favs
-          };
-        },
-        () => {
-          this.saveInLocalStorage(this.state.favs);
-        }
-      );
-    }
+  removeFromFavs = id => {
+    const { favs } = this.state;
+    const newFavs = favs.filter(favId => favId !== id);
+    this.setState({ favs: newFavs }, () =>
+      this.saveInLocalStorage(this.state.favs)
+    );
+  };
+
+  handleFavButtonClicked = (id, isFav) => {
+    isFav ? this.removeFromFavs(id) : this.addToFavs(id);
   };
 
   render() {
+    const { favs } = this.state;
+    const { handleFavButtonClicked } = this;
+
     return (
       <Fragment>
         <Header />
@@ -69,8 +51,8 @@ class App extends Component {
             path="/favs"
             render={() => (
               <Favspage
-                favs={this.state.favs}
-                handleFavButttonClicked={this.handleFavButttonClicked}
+                favs={favs}
+                handleFavButtonClicked={handleFavButtonClicked}
               />
             )}
           />
@@ -80,20 +62,22 @@ class App extends Component {
             render={props => (
               <MovieInfo
                 {...props}
-                favs={this.state.favs}
-                handleFavButttonClicked={this.handleFavButttonClicked}
+                favs={favs}
+                handleFavButtonClicked={handleFavButtonClicked}
               />
             )}
           />
           <Route
+            exact
             path="/"
             render={() => (
               <Homepage
-                favs={this.state.favs}
-                handleFavButttonClicked={this.handleFavButttonClicked}
+                favs={favs}
+                handleFavButtonClicked={handleFavButtonClicked}
               />
             )}
           />
+          <Route component={NoMatch} />
         </Switch>
       </Fragment>
     );

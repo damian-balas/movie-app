@@ -1,44 +1,43 @@
 import React, { Component, Fragment } from "react";
 import { trackPromise } from "react-promise-tracker";
-import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
-
+import LoadingIndicator from "../../components/LoadingIndicator";
+import FavBtn from "../../components/FavBtn";
+import ErrorMessage from "../../components/ErrorMessage";
+import getMovie, { PLOT_LENGTH } from "../../api/getMovie";
 import "./MovieInfo.sass";
 
 class MovieInfo extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    movie: null,
+    errorMessage: ""
+  };
 
-    this.state = {
-      movie: ""
-    };
-
-    this.controller = new AbortController();
-    this.signal = this.controller.signal;
-  }
+  controller = new AbortController();
+  signal = this.controller.signal;
+  id = this.props.match.params.id;
 
   componentWillUnmount() {
     this.controller.abort();
   }
 
-  componentDidMount() {
-    const id = this.props.match.params.id;
-    const signal = this.signal;
-    trackPromise(
-      fetch(`https://omdbapi.com/?apikey=251e77f3&i=${id}&plot=full`, {
-        signal
-      })
-        .then(response => response.json())
-        .then(data =>
-          this.setState({ movie: data }, () => {
-            if (this.state.movie.Response === "False") {
-              this.props.history.replace("/");
-            }
-          })
-        )
-    );
+  async componentDidMount() {
+    try {
+      const movie = await trackPromise(
+        getMovie({ id: this.id, signal: this.signal, plot: PLOT_LENGTH.FULL })
+      );
+
+      if (movie.Response === "False") {
+        this.setState({ errorMessage: movie.Error });
+      } else {
+        this.setState({ movie, errorMessage: "" });
+      }
+    } catch (error) {
+      this.setState({ errorMessage: error.message });
+    }
   }
 
   render() {
+    const { movie, errorMessage } = this.state;
     const {
       Poster,
       Title,
@@ -48,18 +47,21 @@ class MovieInfo extends Component {
       Actors,
       imdbRating,
       Runtime
-    } = this.state.movie;
+    } = movie;
+    const { favs, handleFavButtonClicked } = this.props;
+    const id = this.id;
 
     return (
       <Fragment>
         <LoadingIndicator />
-        {this.state.movie ? (
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+        {movie && (
           <div className="movie-info">
             <div className="img-wrapper">
               {Poster === "N/A" ? (
                 <span className="no-img">Image not found</span>
               ) : (
-                <img className="img" src={`${Poster}`} alt={Title} />
+                <img className="img" src={Poster} alt={Title} />
               )}
             </div>
             <h2 className="title">{Title}</h2>
@@ -72,20 +74,13 @@ class MovieInfo extends Component {
             <span className="actors">{Actors}</span>
             <p className="plot">{Plot}</p>
 
-            <button
-              aria-label="Add to favourites"
-              className="fav-btn"
-              value={this.props.match.params.id}
-              onClick={this.props.handleFavButttonClicked}
-            >
-              {this.props.favs.includes(this.props.match.params.id) ? (
-                <span aira-hidden="true" className="fas fa-heart"></span>
-              ) : (
-                <span aira-hidden="true" className="far fa-heart"></span>
-              )}
-            </button>
+            <FavBtn
+              isFav={favs.includes(id)}
+              handleFavButtonClicked={handleFavButtonClicked}
+              id={id}
+            />
           </div>
-        ) : null}
+        )}
       </Fragment>
     );
   }
