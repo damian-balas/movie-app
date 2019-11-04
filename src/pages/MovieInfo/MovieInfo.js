@@ -8,7 +8,7 @@ import "./MovieInfo.sass";
 
 class MovieInfo extends Component {
   state = {
-    movie: "",
+    movie: null,
     errorMessage: ""
   };
 
