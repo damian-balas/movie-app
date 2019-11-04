@@ -6,7 +6,7 @@ import getMovies from "../../api/getMovies";
 import MovieGrid from "../../components/MovieGrid";
 import Search from "../../components/Search";
 import LoadingIndicator from "../../components/LoadingIndicator";
-
+import ErrorMessage from "../../components/ErrorMessage";
 class Homepage extends Component {
   state = {
     movies: [],
@@ -34,21 +34,22 @@ class Homepage extends Component {
       if (movies.Response === "False") {
         this.setState({ error: movies.Error });
       } else {
-        this.setState({ movies: movies.Search });
+        this.setState({ movies: movies.Search, error: "" });
       }
     } catch (error) {
-      console.log(error.message);
+      this.setState({ error: error.message });
     }
   };
 
   render() {
     const { handleChange, handleSubmit } = this;
     const { handleFavButtonClicked, favs } = this.props;
-    const { movies } = this.state;
+    const { movies, error } = this.state;
 
     return (
       <Fragment>
         <Search handleChange={handleChange} handleSubmit={handleSubmit} />
+        <ErrorMessage errorMessage={error} />
         <LoadingIndicator />
         <MovieGrid
           loadingIndicatorOff={true}

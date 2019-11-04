@@ -2,12 +2,14 @@ import React, { Component, Fragment } from "react";
 import { trackPromise } from "react-promise-tracker";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import FavBtn from "../../components/FavBtn";
-import getMovie, { PLOT_TYPES } from "../../api/getMovie";
+import ErrorMessage from "../../components/ErrorMessage";
+import getMovie, { PLOT_LENGTH } from "../../api/getMovie";
 import "./MovieInfo.sass";
 
 class MovieInfo extends Component {
   state = {
-    movie: ""
+    movie: "",
+    error: ""
   };
 
   controller = new AbortController();
@@ -21,21 +23,21 @@ class MovieInfo extends Component {
   async componentDidMount() {
     try {
       const movie = await trackPromise(
-        getMovie({ id: this.id, signal: this.signal, plot: PLOT_TYPES.FULL })
+        getMovie({ id: this.id, signal: this.signal, plot: PLOT_LENGTH.FULL })
       );
 
       if (movie.Response === "False") {
         this.props.history.replace("/");
       } else {
-        this.setState({ movie });
+        this.setState({ movie, error: "" });
       }
     } catch (error) {
-      console.log(error.message);
+      this.setState({ error: error.message });
     }
   }
 
   render() {
-    const { movie } = this.state;
+    const { movie, error } = this.state;
     const {
       Poster,
       Title,
@@ -52,6 +54,7 @@ class MovieInfo extends Component {
     return (
       <Fragment>
         <LoadingIndicator />
+        <ErrorMessage errorMessage={error} />
         {movie && (
           <div className="movie-info">
             <div className="img-wrapper">

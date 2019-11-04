@@ -3,11 +3,13 @@ import { trackPromise } from "react-promise-tracker";
 
 import getMovie from "../../api/getMovie";
 
+import ErrorMessage from "../../components/ErrorMessage";
 import MovieGrid from "../../components/MovieGrid";
 
 class Favspage extends Component {
   state = {
-    movies: []
+    movies: [],
+    error: ""
   };
   controller = new AbortController();
   signal = this.controller.signal;
@@ -25,20 +27,22 @@ class Favspage extends Component {
         this.setState(state => {
           const moviesArray = state.movies.concat(movie);
           return {
-            movies: moviesArray
+            movies: moviesArray,
+            error: ""
           };
         });
       } catch (error) {
-        console.log(error.message);
+        this.setState({ error: error.message });
       }
     });
   }
 
   render() {
     const { favs, handleFavButtonClicked } = this.props;
-    const { movies } = this.state;
+    const { movies, error } = this.state;
     return (
       <Fragment>
+        <ErrorMessage errorMessage={error} />
         <MovieGrid
           favs={favs}
           handleFavButtonClicked={handleFavButtonClicked}
