@@ -9,7 +9,7 @@ import MovieGrid from "../../components/MovieGrid";
 class Favspage extends Component {
   state = {
     movies: [],
-    error: ""
+    errorMessage: ""
   };
   controller = new AbortController();
   signal = this.controller.signal;
@@ -28,21 +28,21 @@ class Favspage extends Component {
           const moviesArray = state.movies.concat(movie);
           return {
             movies: moviesArray,
-            error: ""
+            errorMessage: ""
           };
         });
       } catch (error) {
-        this.setState({ error: error.message });
+        this.setState({ errorMessage: error.message });
       }
     });
   }
 
   render() {
     const { favs, handleFavButtonClicked } = this.props;
-    const { movies, error } = this.state;
+    const { movies, errorMessage } = this.state;
     return (
       <Fragment>
-        <ErrorMessage errorMessage={error} />
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <MovieGrid
           favs={favs}
           handleFavButtonClicked={handleFavButtonClicked}

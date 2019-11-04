@@ -11,7 +11,7 @@ class Homepage extends Component {
   state = {
     movies: [],
     query: "",
-    error: ""
+    errorMessage: ""
   };
 
   controller = new AbortController();
@@ -32,24 +32,27 @@ class Homepage extends Component {
     try {
       const movies = await trackPromise(getMovies(this.state.query, signal));
       if (movies.Response === "False") {
-        this.setState({ error: movies.Error });
+        this.setState({ movies: [], errorMessage: movies.Error });
       } else {
-        this.setState({ movies: movies.Search, error: "" });
+        this.setState({ movies: movies.Search, errorMessage: "" });
+
       }
     } catch (error) {
-      this.setState({ error: error.message });
+      this.setState({ movies: [], errorMessage: error.message });
+      
+
     }
   };
 
   render() {
     const { handleChange, handleSubmit } = this;
     const { handleFavButtonClicked, favs } = this.props;
-    const { movies, error } = this.state;
+    const { movies, errorMessage } = this.state;
 
     return (
       <Fragment>
         <Search handleChange={handleChange} handleSubmit={handleSubmit} />
-        <ErrorMessage errorMessage={error} />
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <LoadingIndicator />
         <MovieGrid
           loadingIndicatorOff={true}

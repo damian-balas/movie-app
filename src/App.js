@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Homepage from "./pages/Homepage";
 import Favspage from "./pages/Favspage";
+import NoMatch from './pages/NoMatch'
 import MovieInfo from "./pages/MovieInfo";
 
 import "./App.css";
@@ -67,6 +68,7 @@ class App extends Component {
             )}
           />
           <Route
+            exact
             path="/"
             render={() => (
               <Homepage
@@ -75,6 +77,7 @@ class App extends Component {
               />
             )}
           />
+          <Route component={NoMatch} />
         </Switch>
       </Fragment>
     );

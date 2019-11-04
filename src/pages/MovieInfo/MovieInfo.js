@@ -9,7 +9,7 @@ import "./MovieInfo.sass";
 class MovieInfo extends Component {
   state = {
     movie: "",
-    error: ""
+    errorMessage: ""
   };
 
   controller = new AbortController();
@@ -27,17 +27,18 @@ class MovieInfo extends Component {
       );
 
       if (movie.Response === "False") {
-        this.props.history.replace("/");
+        // this.props.history.replace("/");
+        this.setState({ errorMessage: movie.Error });
       } else {
-        this.setState({ movie, error: "" });
+        this.setState({ movie, errorMessage: "" });
       }
     } catch (error) {
-      this.setState({ error: error.message });
+      this.setState({ errorMessage: error.message });
     }
   }
 
   render() {
-    const { movie, error } = this.state;
+    const { movie, errorMessage } = this.state;
     const {
       Poster,
       Title,
@@ -54,7 +55,7 @@ class MovieInfo extends Component {
     return (
       <Fragment>
         <LoadingIndicator />
-        <ErrorMessage errorMessage={error} />
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         {movie && (
           <div className="movie-info">
             <div className="img-wrapper">
