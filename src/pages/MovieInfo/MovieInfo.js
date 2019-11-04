@@ -27,7 +27,6 @@ class MovieInfo extends Component {
       );
 
       if (movie.Response === "False") {
-        // this.props.history.replace("/");
         this.setState({ errorMessage: movie.Error });
       } else {
         this.setState({ movie, errorMessage: "" });
