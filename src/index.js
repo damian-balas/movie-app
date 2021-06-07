@@ -1,13 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HashRouter } from "react-router-dom";
-
+import { BrowserRouter } from "react-router-dom";
+import TagManager from "react-gtm-module";
 import "./index.css";
 import App from "./App";
 
+const tagManagerArgs = {
+  gtmId: "GTM-P7NB2QX",
+};
+
+TagManager.initialize(tagManagerArgs);
+
 ReactDOM.render(
-  <HashRouter>
+  <BrowserRouter>
     <App />
-  </HashRouter>,
+  </BrowserRouter>,
   document.getElementById("root")
 );
