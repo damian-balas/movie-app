@@ -7,7 +7,7 @@ import App from "./App";
 
 const tagManagerArgs = {
   gtmId: "GTM-P7NB2QX",
-};
+}; 
 
 TagManager.initialize(tagManagerArgs);
 
