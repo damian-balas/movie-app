@@ -2,7 +2,6 @@
   "name": "movie-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://damian-balas.github.io/movie-app",
   "dependencies": {
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
